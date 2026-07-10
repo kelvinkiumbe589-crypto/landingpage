@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ETW Journal — The Trading Journal for Serious Forex Traders</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "page-bg": "#FAF9F5",
+                  "panel-bg": "#F0EFEB",
+                  "soft-card": "#E9E8E4",
+                  "soft-card-2": "#F4F3EF",
+                  "text": "#1B1B1B",
+                  "muted": "#8C8880",
+                  "muted-light": "#BDBAB2",
+                  "line": "#D9D7D0",
+                  "black": "#181818",
+                  "deep-black": "#151515",
+                  "white-card": "#FFFDF8",
+                  "white-soft": "#FAF9F5",
+                  "profit": "#12B981",
+                  "profit-2": "#06B6D4"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.125rem",
+                  "lg": "0.25rem",
+                  "xl": "0.5rem",
+                  "full": "0.75rem",
+                  "3xl": "2rem",
+                  "4xl": "3rem"
+          },
+          "spacing": {
+                  "gutter": "24px",
+                  "unit": "4px",
+                  "sm": "16px",
+                  "md": "32px",
+                  "xl": "128px",
+                  "lg": "64px",
+                  "margin": "40px",
+                  "xs": "8px",
+                  "section": "160px"
+          },
+          "fontFamily": {
+                  "label": ["Inter"],
+                  "body-lg": ["Inter"],
+                  "display": ["Inter"],
+                  "h2": ["Inter"],
+                  "h1": ["Inter"],
+                  "h3": ["Inter"],
+                  "body-md": ["Inter"]
+          },
+          "fontSize": {
+                  "label": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                  "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                  "display": ["82px", { "lineHeight": "1.05", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                  "h2": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                  "h1": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                  "h3": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                  "body-md": ["15px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+          }
+  },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #0d0d0d;
+    }
+    .text-balance { text-wrap: balance; }
+
+    /* Motion & Transitions */
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-15px) rotate(1deg); }
+      }
+      @keyframes float-alt {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(15px) rotate(-1.5deg); }
+      }
+
+      .floating-item {
+        animation: float 6s ease-in-out infinite;
+      }
+      .floating-item-alt {
+        animation: float-alt 8s ease-in-out infinite;
+      }
+
+      .cta-magnetic {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .cta-magnetic:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+      }
+
+      .nav-entrance {
+        animation: navScaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes navScaleIn {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .card-hover-effect {
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .card-hover-effect:hover {
+        transform: scale(1.02) translateY(-4px);
+        box-shadow: 0 20px 40px -15px rgba(0,0,0,0.1);
+      }
+
+      .collage-hover-effect {
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .collage-hover-effect:hover {
+        transform: scale(1.05) !important;
+        box-shadow: 0 30px 60px -15px rgba(0,0,0,0.2) !important;
+        z-index: 30 !important;
+      }
+
+      /* Cinematic image treatment */
+      .img-cine {
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+      }
+      .collage-hover-effect:hover .img-cine,
+      .group:hover .img-cine,
+      .card-hover-effect:hover .img-cine {
+        transform: scale(1.14);
+        filter: saturate(1.15) contrast(1.05);
+      }
+
+      @keyframes kenburns {
+        0%   { transform: scale(1.02) translate(0, 0); }
+        100% { transform: scale(1.14) translate(-1.5%, -1.5%); }
+      }
+      .kenburns { animation: kenburns 22s ease-in-out infinite alternate; }
+
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      .marquee-content { animation: marquee 40s linear infinite; }
+      @keyframes marquee {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+    }
+
+    .marquee-container { overflow: hidden; width: 100%; }
+    .marquee-content { display: inline-flex; white-space: nowrap; }
+
+    /* Cinematic gradient overlay used on imagery */
+    .cine-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%);
+      pointer-events: none;
+    }
+
+    /* Sharp cinematic headline treatment */
+    .headline-sharp {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+    }
+    .text-cine-shadow {
+      text-shadow: 0 2px 50px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.45);
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.45; }
+      50%      { opacity: 0.9; }
+    }
+    .glow-pulse { animation: glowPulse 7s ease-in-out infinite; }
+
+    /* Cinematic testimonial carousel */
+    .testi-slide {
+      opacity: 0;
+      transform: translateY(28px) scale(0.985);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .testi-slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .testi-dot {
+      width: 8px; height: 8px; border-radius: 9999px;
+      background: rgba(255,255,255,0.25);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .testi-dot.active {
+      width: 28px;
+      background: linear-gradient(to right, #12B981, #06B6D4);
+    }
+  </style>
+</head>
+<body class="text-white font-body-lg min-h-screen antialiased selection:bg-profit selection:text-black bg-[#0d0d0d]">
+<!-- 1. Floating Nav (TopAppBar) with Sign in / Sign up -->
+<header class="fixed top-[24px] left-0 right-0 z-50 flex items-center justify-center px-sm w-full pointer-events-none">
+<div class="nav-entrance pointer-events-auto w-full max-w-[820px] h-[72px] flex items-center justify-between bg-[#000000]/90 backdrop-blur-xl rounded-full pl-6 pr-xs py-xs shadow-xl border border-white/10 transition-all duration-500">
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-[34px] h-[34px] rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center shrink-0 shadow-[0_0_18px_rgba(18,185,129,0.5)]"><span class="text-black font-bold text-sm leading-none">E</span></div>
+<span class="hidden sm:inline text-page-bg font-bold tracking-tight text-[15px]">ETW Journal</span>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="font-label text-label text-page-bg/70 hover:text-page-bg transition-colors duration-300" href="#features">Features</a>
+<a class="font-label text-label text-page-bg/70 hover:text-page-bg transition-colors duration-300" href="#analytics">Analytics</a>
+<a class="font-label text-label text-page-bg/70 hover:text-page-bg transition-colors duration-300" href="#pricing">Pricing</a>
+<a class="font-label text-label text-page-bg/70 hover:text-page-bg transition-colors duration-300" href="#journal">Journal</a>
+</nav>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="hidden sm:flex cta-magnetic text-page-bg/90 text-[15px] font-semibold h-full px-6 rounded-full hover:text-white hover:bg-white/10 transition-colors duration-300 items-center">
+        Sign in
+      </button>
+<button class="cta-magnetic bg-gradient-to-r from-profit to-profit-2 text-black text-[15px] font-bold h-full px-8 rounded-full hover:brightness-110 transition-all duration-300 shrink-0 flex items-center shadow-[0_0_24px_rgba(18,185,129,0.4)]">
+        Sign up
+      </button>
+</div>
+</div>
+</header>
+<main>
+<!-- 1. Hero — subtle dark cinematic top -->
+<section class="relative overflow-hidden bg-gradient-to-b from-[#131313] via-[#191919] to-[#0e0e0e] pt-[240px] pb-[110px]">
+<!-- soft green brand glow -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(18,185,129,0.12),transparent_55%)] pointer-events-none glow-pulse"></div>
+<!-- faint grid / vignette -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_60%,rgba(0,0,0,0.4))] pointer-events-none"></div>
+<!-- blend into the cream strip below -->
+<div class="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-[#0d0d0d] to-transparent z-[1]"></div>
+<div class="relative z-10 px-margin max-w-[1728px] mx-auto flex flex-col items-center text-center">
+<div class="reveal active mb-6 flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+<span class="w-2 h-2 rounded-full bg-profit shadow-[0_0_10px_rgba(18,185,129,0.7)] animate-pulse"></span>
+<span class="font-label text-label text-white/70">The forex journal built for discipline</span>
+</div>
+<h1 class="reveal active headline-sharp font-display text-display text-balance max-w-4xl mb-lg text-white tracking-tighter">Every trade, in perfect focus.</h1>
+<p class="reveal active font-body-lg text-body-lg text-white/60 max-w-2xl mb-lg" style="transition-delay: 0.1s;">
+        Log every position, decode your edge, and turn raw market data into disciplined, profitable decisions — all in one beautiful trading journal for forex and crypto.
+      </p>
+<div class="reveal active flex items-center gap-3 mb-[70px]" style="transition-delay: 0.2s;">
+<button class="cta-magnetic bg-gradient-to-r from-profit to-profit-2 text-black text-[15px] font-bold px-8 py-4 rounded-full hover:brightness-110 transition-all shadow-[0_0_28px_rgba(18,185,129,0.4)]">
+        Start journaling — free
+      </button>
+<button class="cta-magnetic bg-white/10 text-white text-[15px] font-semibold px-8 py-4 rounded-full border border-white/15 hover:bg-white/20 transition-colors backdrop-blur-sm">
+        Sign in
+      </button>
+</div>
+<div class="reveal active w-full max-w-[1492px] bg-panel-bg overflow-hidden shadow-2xl relative z-10 rounded-[40px] h-[800px] cine-overlay ring-1 ring-white/10" style="transition-delay: 0.3s;">
+<video class="w-full h-full object-cover" autoplay="" muted="" loop="" playsinline="" preload="auto" poster="nick-chong-N__BnvQ_w18-unsplash.jpg">
+<source src="6799753-uhd_2160_3840_30fps.mp4" type="video/mp4"/>
+<img alt="Live forex trading charts" class="w-full h-full object-cover" src="nick-chong-N__BnvQ_w18-unsplash.jpg"/>
+</video>
+<div class="absolute bottom-8 left-8 z-10 flex items-center gap-3 bg-black/40 backdrop-blur-md px-5 py-3 rounded-full border border-white/10">
+<span class="w-2.5 h-2.5 rounded-full bg-profit animate-pulse"></span>
+<span class="font-label text-label text-white">EUR/USD · +2.4% this session</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Trust Strip -->
+<section class="reveal py-xl px-margin border-t border-white/10 max-w-[1728px] mx-auto flex flex-col items-center bg-transparent relative z-0 pt-[40px]">
+<p class="font-label text-label text-white/40 mb-md uppercase tracking-widest text-center">Track every market you trade</p>
+<div class="flex justify-center items-center opacity-[0.72] text-muted-light w-full">
+<div class="marquee-container">
+<div class="marquee-content flex gap-[100px] items-center text-muted-light">
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">EUR/USD</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">GBP/JPY</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">XAU/USD</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">US30</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">BTC/USD</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">NAS100</span>
+<!-- Duplicate for seamless loop -->
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">EUR/USD</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">GBP/JPY</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">XAU/USD</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">US30</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">BTC/USD</span>
+<span class="font-h3 text-h3 font-semibold tracking-tight opacity-40 hover:opacity-100 hover:text-white transition-all duration-300 cursor-default">NAS100</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Floating Visual Collage — cinematic dark stage -->
+<section id="features" class="relative w-full h-[1200px] overflow-hidden bg-deep-black">
+<!-- Ambient video filling the center -->
+<video class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover opacity-30" autoplay="" muted="" loop="" playsinline="" preload="auto">
+<source src="7691593-hd_1080_1920_25fps.mp4" type="video/mp4"/>
+</video>
+<!-- Green brand glow + depth overlays -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_46%,rgba(18,185,129,0.20),transparent_55%)] glow-pulse"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-deep-black/70 via-deep-black/20 to-deep-black/85"></div>
+<!-- Blend into the cream sections above & below -->
+<div class="absolute top-0 inset-x-0 h-48 bg-gradient-to-b from-[#0d0d0d] to-transparent z-[5]"></div>
+<div class="absolute bottom-0 inset-x-0 h-48 bg-gradient-to-t from-[#0d0d0d] to-transparent z-[5]"></div>
+<!-- Floating imagery (behind the words) -->
+<div class="absolute inset-0 max-w-[1728px] mx-auto z-20">
+<!-- 1. Top-left -->
+<div class="reveal floating-item collage-hover-effect absolute rounded-[24px] overflow-hidden bg-panel-bg shadow-2xl ring-1 ring-white/10" style="left: 110px; top: -10px; width: 310px; height: 240px; transition-delay: 0.1s;">
+<img class="w-full h-full object-cover img-cine" src="kevin-ku-w7ZyuGYNpRQ-unsplash.jpg"/>
+</div>
+<!-- 2. Top-right -->
+<div class="reveal floating-item-alt collage-hover-effect absolute rounded-[24px] overflow-hidden bg-panel-bg shadow-2xl ring-1 ring-white/10" style="left: 1280px; top: -30px; width: 340px; height: 300px; transition-delay: 0.2s;">
+<img class="w-full h-full object-cover img-cine" src="maxim-hopman-fiXLQXAhCfk-unsplash.jpg"/>
+</div>
+<!-- 3. Left-middle -->
+<div class="reveal floating-item collage-hover-effect absolute rounded-[24px] overflow-hidden bg-panel-bg shadow-2xl ring-1 ring-white/10" style="left: 115px; top: 470px; width: 385px; height: 235px; transition-delay: 0.3s;">
+<img class="w-full h-full object-cover img-cine" src="marga-santoso-OmPqCwX422Y-unsplash.jpg"/>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
+<span class="font-label text-xs font-semibold text-text">Trade Log</span>
+</div>
+</div>
+<!-- 4. Right-middle -->
+<div class="reveal floating-item-alt collage-hover-effect absolute rounded-[24px] overflow-hidden bg-panel-bg shadow-2xl ring-1 ring-white/10" style="left: 1415px; top: 245px; width: 295px; height: 385px; transition-delay: 0.4s;">
+<img class="w-full h-full object-cover img-cine" src="jakub-zerdzicki-U4-I4oH4xlg-unsplash.jpg"/>
+</div>
+<!-- 5. Center-lower -->
+<div class="reveal floating-item collage-hover-effect absolute rounded-[24px] overflow-hidden bg-black shadow-2xl ring-1 ring-white/10 cine-overlay" style="left: 780px; top: 770px; width: 430px; height: 285px; transition-delay: 0.5s;">
+<img class="w-full h-full object-cover img-cine" src="yashowardhan-singh-cGot2jFpKIM-unsplash.jpg"/>
+</div>
+<!-- 6. Floating Comment -->
+<div class="reveal floating-item-alt absolute bg-white/85 backdrop-blur-lg rounded-full flex items-center gap-3 px-4 py-3 shadow-2xl border border-white/50 z-30" style="left: 560px; top: 810px; width: 320px; height: 62px; transition-delay: 0.6s;">
+<div class="w-8 h-8 rounded-full bg-soft-card overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" src="aedrian-salazar-OKNJX7B-cbc-unsplash.jpg"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-text font-bold">@pip_hunter</span>
+<span class="font-body-md text-[13px] text-muted leading-tight">up 6R this week 🔥&nbsp;&nbsp;&nbsp;&nbsp;1h</span>
+</div>
+</div>
+<!-- 7. Bottom-left -->
+<div class="reveal floating-item collage-hover-effect absolute rounded-[24px] overflow-hidden bg-panel-bg shadow-2xl ring-1 ring-white/10" style="left: 30px; top: 870px; width: 400px; height: 285px; transition-delay: 0.7s;">
+<img class="w-full h-full object-cover img-cine" src="behnam-norouzi-mp11_hrQXf8-unsplash.jpg"/>
+<div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
+<span class="font-label text-xs font-semibold text-text">Risk Analytics</span>
+</div>
+</div>
+<!-- 8. Bottom-right -->
+<div class="reveal floating-item-alt collage-hover-effect absolute rounded-[24px] overflow-hidden bg-panel-bg shadow-2xl ring-1 ring-white/10" style="left: 1230px; top: 830px; width: 460px; height: 320px; transition-delay: 0.8s;">
+<img class="w-full h-full object-cover img-cine" src="adam-nowakowski-D4LDw5eXhgg-unsplash.jpg"/>
+</div>
+</div>
+<!-- Headline on top of everything -->
+<div class="reveal active absolute inset-0 flex flex-col items-center justify-center z-30 pointer-events-none px-4">
+<span class="font-label text-label text-profit mb-5 uppercase tracking-[0.35em]">See your whole game</span>
+<h2 class="headline-sharp text-cine-shadow font-display text-white text-[150px] leading-[0.82] text-center max-[1200px]:text-[92px] max-[640px]:text-[52px]">Your Edge,<br/>Visualized</h2>
+<p class="mt-7 font-body-lg text-white/75 max-w-xl text-center text-cine-shadow max-[640px]:text-base">Every position, screenshot and emotion — mapped into one clear picture of how you really trade.</p>
+</div>
+</section>
+<!-- 4. Manifesto — dark trading-terminal backdrop -->
+<section class="reveal relative overflow-hidden py-[220px] px-margin flex flex-col items-center text-center bg-deep-black">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 kenburns" src="lonely-blue-n37BD6BFbRQ-unsplash.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-b from-deep-black via-deep-black/60 to-deep-black"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(18,185,129,0.14),transparent_62%)] glow-pulse"></div>
+<!-- blend into the cream sections above & below -->
+<div class="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#0d0d0d] to-transparent"></div>
+<div class="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-[#0d0d0d] to-transparent"></div>
+<h2 class="headline-sharp text-cine-shadow font-display text-[52px] leading-[1.15] text-balance max-w-[1200px] tracking-tight text-white relative z-10 max-[640px]:text-[30px]">
+    Most traders lose not from bad entries, but from untracked mistakes. ETW Journal turns every trade into <span class="text-transparent bg-clip-text bg-gradient-to-r from-profit to-profit-2">data</span> — so your discipline compounds faster than your account.
+  </h2>
+</section>
+<!-- 5. The Journal Foundation -->
+<section id="journal" class="reveal py-[120px] px-margin max-w-[1728px] mx-auto bg-transparent">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-[100px] items-center">
+<div class="reveal rounded-[40px] p-6 h-[700px] flex items-center justify-center relative overflow-hidden border border-line/30 shadow-sm card-hover-effect bg-deep-black group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-25 blur-[3px] scale-110" src="lonely-blue-zavmuR_d-9s-unsplash.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-br from-deep-black/85 via-deep-black/60 to-deep-black/40"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_25%,rgba(18,185,129,0.18),transparent_60%)]"></div>
+<div class="relative z-10 w-full max-w-[440px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/15 bg-black">
+<div class="flex items-center gap-1.5 px-4 py-3 bg-white/5 border-b border-white/10">
+<span class="w-3 h-3 rounded-full bg-[#FF5F57]"></span>
+<span class="w-3 h-3 rounded-full bg-[#FEBC2E]"></span>
+<span class="w-3 h-3 rounded-full bg-[#28C840]"></span>
+<span class="ml-3 font-label text-[11px] text-white/50">ETW Journal — Dashboard</span>
+</div>
+<img class="w-full h-[380px] object-cover img-cine" src="jakub-zerdzicki-itgsDhR1e2w-unsplash.jpg"/>
+<div class="flex items-center justify-between px-6 py-5 bg-black/80 border-t border-white/10">
+<div><p class="font-label text-[10px] text-white/40 mb-1">TODAY</p><p class="font-bold text-profit text-lg">+3.2R</p></div>
+<div><p class="font-label text-[10px] text-white/40 mb-1">WIN RATE</p><p class="font-bold text-white text-lg">68%</p></div>
+<div><p class="font-label text-[10px] text-white/40 mb-1">TRADES</p><p class="font-bold text-white text-lg">14</p></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center h-full max-w-lg">
+<h3 class="reveal font-display text-h2 mb-12 font-bold tracking-tight text-white">The intelligent foundation for your trading.</h3>
+<div class="relative pl-8 border-l-[3px] border-white/15 space-y-12">
+<div class="absolute left-[-3px] top-0 w-[3px] h-1/3 bg-gradient-to-b from-profit to-profit-2"></div>
+<div class="reveal">
+<h4 class="font-h3 text-xl font-bold mb-3 text-white">Log every trade in seconds</h4>
+<p class="font-body-md text-white/60 leading-relaxed">Capture entries, exits, position size, screenshots and your reasoning — before emotion rewrites the story.</p>
+</div>
+<div class="reveal opacity-50 hover:opacity-100 transition-opacity">
+<h4 class="font-h3 text-xl font-bold mb-3 text-white">Find your real edge</h4>
+<p class="font-body-md text-white/60 leading-relaxed">ETW surfaces which setups, sessions and pairs actually make you money — and which quietly bleed your account.</p>
+</div>
+<div class="reveal opacity-50 hover:opacity-100 transition-opacity">
+<h4 class="font-h3 text-xl font-bold mb-3 text-white">Works offline, installs as an app</h4>
+<p class="font-body-md text-white/60 leading-relaxed">Install ETW Journal on any device. Your data stays with you, syncs when you're back online, and never needs a browser.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Analytics Studio -->
+<section id="analytics" class="reveal py-[120px] px-margin max-w-[1728px] mx-auto bg-transparent">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-[100px] items-center">
+<div class="flex flex-col justify-center h-full max-w-lg order-2 lg:order-1">
+<h3 class="reveal font-display text-h2 mb-8 font-bold tracking-tight text-white">Turn your history into an unfair advantage.</h3>
+<p class="reveal font-body-lg text-white/60 mb-12">ETW Analytics reads your journal and builds a live picture of your performance — expectancy, drawdown, R-multiples and behavioural patterns you'd never spot by eye.</p>
+<div class="reveal flex gap-4 border-b border-white/15 pb-4">
+<button class="font-label text-sm font-bold text-white border-b-2 border-profit pb-4 -mb-[17px] transition-colors hover:text-white">Performance</button>
+<button class="font-label text-sm font-semibold text-white/50 hover:text-white pb-4 -mb-[17px] transition-colors">Risk</button>
+<button class="font-label text-sm font-semibold text-white/50 hover:text-white pb-4 -mb-[17px] transition-colors">Psychology</button>
+</div>
+</div>
+<div class="reveal rounded-[40px] p-6 h-[700px] flex items-center justify-center relative overflow-hidden border border-line/30 shadow-inner order-1 lg:order-2 card-hover-effect bg-deep-black group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-25 blur-[3px] scale-110" src="berke-citak-QV5VoI18Ld8-unsplash.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-deep-black/85 via-deep-black/60 to-deep-black/40"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,rgba(6,182,212,0.20),transparent_60%)]"></div>
+<div class="relative z-10 w-full max-w-[480px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/15 bg-black">
+<div class="flex items-center gap-1.5 px-4 py-3 bg-white/5 border-b border-white/10">
+<span class="w-3 h-3 rounded-full bg-[#FF5F57]"></span>
+<span class="w-3 h-3 rounded-full bg-[#FEBC2E]"></span>
+<span class="w-3 h-3 rounded-full bg-[#28C840]"></span>
+<span class="ml-3 font-label text-[11px] text-white/50">ETW Analytics — Performance</span>
+</div>
+<img class="w-full h-[320px] object-cover img-cine" src="jakub-zerdzicki-VM_6EtTAfDQ-unsplash.jpg"/>
+<div class="grid grid-cols-3 divide-x divide-white/10 bg-black/80 border-t border-white/10">
+<div class="p-4 text-center"><p class="font-label text-[10px] text-white/40 mb-1">EXPECTANCY</p><p class="font-bold text-profit text-lg">+0.42R</p></div>
+<div class="p-4 text-center"><p class="font-label text-[10px] text-white/40 mb-1">WIN RATE</p><p class="font-bold text-white text-lg">68%</p></div>
+<div class="p-4 text-center"><p class="font-label text-[10px] text-white/40 mb-1">MAX DD</p><p class="font-bold text-white text-lg">6.1%</p></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Trader Use Cases -->
+<section class="reveal py-[160px] px-margin max-w-[1728px] mx-auto flex flex-col items-center bg-transparent">
+<h2 class="reveal font-display text-h2 mb-12 font-bold tracking-tight text-center text-white">Built for every kind of trader.</h2>
+<div class="reveal flex flex-wrap justify-center gap-3 mb-16">
+<button class="px-6 py-2 rounded-full bg-white/10 text-white/80 font-label text-sm hover:bg-white/20 transition-colors border border-white/10 cta-magnetic">Scalpers</button>
+<button class="px-6 py-2 rounded-full bg-white/10 text-white/80 font-label text-sm hover:bg-white/20 transition-colors border border-white/10 cta-magnetic">Day Traders</button>
+<button class="px-6 py-2 rounded-full bg-white/10 text-white/80 font-label text-sm hover:bg-white/20 transition-colors border border-white/10 cta-magnetic">Swing Traders</button>
+<button class="px-6 py-2 rounded-full bg-white/10 text-white/80 font-label text-sm hover:bg-white/20 transition-colors border border-white/10 cta-magnetic">Prop Firm</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+<div class="reveal h-[400px] rounded-[32px] p-8 flex flex-col justify-end group overflow-hidden relative shadow-sm border border-white/10 card-hover-effect bg-black">
+<img class="absolute inset-0 w-full h-full object-cover img-cine opacity-70" src="marcos-paulo-prado-tcyW6Im5Uug-unsplash.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/65 to-black/20"></div>
+<div class="relative z-10">
+<h4 class="font-h3 text-xl font-bold mb-2 text-white">Trade Playbooks</h4>
+<p class="font-body-md text-white/80">Save your A+ setups and grade every trade against your own rules.</p>
+</div>
+</div>
+<div class="reveal bg-gradient-to-br from-[#0f2e24] to-[#0c2733] h-[400px] rounded-[32px] p-8 flex flex-col justify-between group overflow-hidden relative shadow-sm border border-white/10 card-hover-effect" style="transition-delay: 0.1s;">
+<div class="relative z-10">
+<h4 class="font-h3 text-xl font-bold mb-2 text-white">Chart Screenshots</h4>
+<p class="font-body-md text-white/70">Attach the exact chart to every entry and relive the setup on review.</p>
+</div>
+<div class="absolute bottom-[-20px] right-[-20px] w-2/3 h-2/3 bg-panel-bg rounded-tl-3xl shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-white/10 overflow-hidden transform group-hover:-translate-y-2 group-hover:-translate-x-2 transition-transform duration-500">
+<img class="w-full h-full object-cover img-cine" src="prophsee-journals-4AL-idYwsEc-unsplash.jpg"/>
+</div>
+</div>
+<div class="reveal md:col-span-2 bg-[#181818] h-[420px] rounded-[32px] flex flex-col justify-end group overflow-hidden relative shadow-lg card-hover-effect" style="transition-delay: 0.1s;">
+<img class="absolute inset-0 w-full h-full object-cover object-center img-cine opacity-90 grayscale" src="callum-skelton-LaMnXPLz7qc-unsplash.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10"></div>
+<div class="relative z-10 p-8">
+<div class="inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/15">
+<span class="material-symbols-outlined text-profit text-[16px]">psychology</span>
+<span class="font-label text-[11px] text-white/90">Emotions</span>
+</div>
+<h4 class="font-h3 text-xl font-bold mb-2 text-white">Trading Psychology</h4>
+<p class="font-body-md text-white/80">Tag emotions and behaviours to catch tilt before it costs you.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Testimonial Carousel -->
+<section class="reveal relative overflow-hidden py-[180px] px-margin flex flex-col items-center text-center bg-transparent">
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(6,182,212,0.10),transparent_60%)] pointer-events-none"></div>
+<div class="relative z-10 w-full flex flex-col items-center">
+<div class="mb-10 opacity-50 text-transparent bg-clip-text bg-gradient-to-r from-profit to-profit-2">
+<span class="material-symbols-outlined text-[64px]">format_quote</span>
+</div>
+<div id="testi-wrap" class="relative w-full max-w-[1040px] h-[360px] sm:h-[300px] md:h-[280px]">
+<figure class="testi-slide active absolute inset-0 flex flex-col items-center">
+<blockquote class="headline-sharp font-display text-[30px] md:text-[46px] leading-[1.15] tracking-tight text-white mb-10 text-balance max-w-[960px]">"I passed my prop firm challenge the month I started using ETW Journal. Seeing my mistakes in black and white changed everything."</blockquote>
+<figcaption class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center text-black font-bold text-lg ring-1 ring-white/15 shrink-0">MR</div>
+<div class="text-left">
+<p class="font-label text-sm font-bold text-white">Marcus Reed</p>
+<p class="font-label text-xs text-white/50">Funded Forex Trader</p>
+</div>
+</figcaption>
+</figure>
+<figure class="testi-slide absolute inset-0 flex flex-col items-center">
+<blockquote class="headline-sharp font-display text-[30px] md:text-[46px] leading-[1.15] tracking-tight text-white mb-10 text-balance max-w-[960px]">"I finally know which setups actually make me money. ETW showed me my London-session scalps were carrying the whole account."</blockquote>
+<figcaption class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center text-black font-bold text-lg ring-1 ring-white/15 shrink-0">AK</div>
+<div class="text-left">
+<p class="font-label text-sm font-bold text-white">Aisha Khan</p>
+<p class="font-label text-xs text-white/50">Day Trader · London</p>
+</div>
+</figcaption>
+</figure>
+<figure class="testi-slide absolute inset-0 flex flex-col items-center">
+<blockquote class="headline-sharp font-display text-[30px] md:text-[46px] leading-[1.15] tracking-tight text-white mb-10 text-balance max-w-[960px]">"The R-multiple analytics are addictive. My discipline jumped the moment I had to log every trade before I took it."</blockquote>
+<figcaption class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center text-black font-bold text-lg ring-1 ring-white/15 shrink-0">DF</div>
+<div class="text-left">
+<p class="font-label text-sm font-bold text-white">Diego Fernández</p>
+<p class="font-label text-xs text-white/50">Swing Trader</p>
+</div>
+</figcaption>
+</figure>
+<figure class="testi-slide absolute inset-0 flex flex-col items-center">
+<blockquote class="headline-sharp font-display text-[30px] md:text-[46px] leading-[1.15] tracking-tight text-white mb-10 text-balance max-w-[960px]">"Journaling used to feel like a chore. With ETW it takes ten seconds, syncs offline, and I haven't missed logging a trade in months."</blockquote>
+<figcaption class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center text-black font-bold text-lg ring-1 ring-white/15 shrink-0">PN</div>
+<div class="text-left">
+<p class="font-label text-sm font-bold text-white">Priya Nair</p>
+<p class="font-label text-xs text-white/50">Crypto &amp; FX Trader</p>
+</div>
+</figcaption>
+</figure>
+<figure class="testi-slide absolute inset-0 flex flex-col items-center">
+<blockquote class="headline-sharp font-display text-[30px] md:text-[46px] leading-[1.15] tracking-tight text-white mb-10 text-balance max-w-[960px]">"Tagging my emotions was the unlock. I can see tilt building and walk away before it ever costs me a payout."</blockquote>
+<figcaption class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center text-black font-bold text-lg ring-1 ring-white/15 shrink-0">TW</div>
+<div class="text-left">
+<p class="font-label text-sm font-bold text-white">Tom Whitaker</p>
+<p class="font-label text-xs text-white/50">Prop Firm Trader</p>
+</div>
+</figcaption>
+</figure>
+</div>
+<div id="testi-dots" class="flex items-center gap-2 mt-6">
+<button class="testi-dot active" aria-label="Testimonial 1"></button>
+<button class="testi-dot" aria-label="Testimonial 2"></button>
+<button class="testi-dot" aria-label="Testimonial 3"></button>
+<button class="testi-dot" aria-label="Testimonial 4"></button>
+<button class="testi-dot" aria-label="Testimonial 5"></button>
+</div>
+</div>
+</section>
+<!-- 9. Updates -->
+<section id="pricing" class="reveal py-[120px] px-margin max-w-[1728px] mx-auto bg-transparent">
+<div class="flex justify-between items-end mb-12">
+<h2 class="reveal font-display text-h2 font-bold tracking-tight text-white">From the Trading Desk</h2>
+<button class="reveal font-label text-sm font-bold border-b border-white/40 text-white pb-1 hover:text-profit hover:border-profit transition-colors">View All</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="reveal group cursor-pointer">
+<div class="w-full h-[450px] bg-panel-bg rounded-[32px] mb-6 overflow-hidden shadow-md card-hover-effect ring-1 ring-white/10">
+<img class="w-full h-full object-cover img-cine" src="maxim-hopman-fiXLQXAhCfk-unsplash.jpg"/>
+</div>
+<p class="font-label text-xs text-white/40 mb-3">Product Update • Jun 12</p>
+<h4 class="font-h3 text-xl font-bold text-white group-hover:text-profit transition-colors">Introducing live R-multiple analytics</h4>
+</div>
+<div class="reveal group cursor-pointer" style="transition-delay: 0.1s;">
+<div class="w-full h-[450px] bg-panel-bg rounded-[32px] mb-6 overflow-hidden shadow-md card-hover-effect ring-1 ring-white/10">
+<img class="w-full h-full object-cover img-cine" src="kevin-ku-w7ZyuGYNpRQ-unsplash.jpg"/>
+</div>
+<p class="font-label text-xs text-white/40 mb-3">Guide • May 28</p>
+<h4 class="font-h3 text-xl font-bold text-white group-hover:text-profit transition-colors">How to build a forex trading plan</h4>
+</div>
+<div class="reveal group cursor-pointer" style="transition-delay: 0.2s;">
+<div class="w-full h-[450px] bg-panel-bg rounded-[32px] mb-6 overflow-hidden shadow-md card-hover-effect ring-1 ring-white/10">
+<img class="w-full h-full object-cover img-cine" src="marga-santoso-OmPqCwX422Y-unsplash.jpg"/>
+</div>
+<p class="font-label text-xs text-white/40 mb-3">Company • May 15</p>
+<h4 class="font-h3 text-xl font-bold text-white group-hover:text-profit transition-colors">ETW Journal now works fully offline</h4>
+</div>
+</div>
+</section>
+<!-- 10. Sign-up CTA -->
+<section class="reveal relative overflow-hidden py-[220px] px-margin flex flex-col items-center text-center">
+<video class="absolute inset-0 w-full h-full object-cover opacity-40" autoplay="" muted="" loop="" playsinline="" preload="auto">
+<source src="8480279-hd_1080_1920_25fps.mp4" type="video/mp4"/>
+</video>
+<div class="absolute inset-0 bg-gradient-to-b from-[#0d0d0d] via-[#0d0d0d]/75 to-[#0d0d0d]"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(18,185,129,0.18),transparent_60%)] glow-pulse"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="reveal w-[120px] h-[120px] rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center mb-12 shadow-[0_0_40px_rgba(18,185,129,0.45)]"><span class="text-black font-bold text-[64px] leading-none">E</span></div>
+<h2 class="reveal headline-sharp font-display text-[56px] leading-[1.1] tracking-tight text-white mb-8 max-w-3xl text-balance">
+    Start your trading journal today.
+  </h2>
+<p class="reveal font-body-lg text-white/60 mb-10 max-w-xl">Free to start. No card required. Install it as an app and journal your very next trade.</p>
+<div class="reveal flex items-center gap-3">
+<button class="cta-magnetic bg-gradient-to-r from-profit to-profit-2 text-black font-bold text-sm px-10 py-5 rounded-full hover:brightness-110 transition-all shadow-[0_0_30px_rgba(18,185,129,0.4)]">
+    Sign up free
+  </button>
+<button class="cta-magnetic bg-white/10 text-white font-semibold text-sm px-10 py-5 rounded-full border border-white/15 hover:bg-white/20 transition-colors backdrop-blur-sm">
+    Sign in
+  </button>
+</div>
+</div>
+</section>
+</main>
+<!-- 11. Dark Footer -->
+<footer class="reveal bg-gradient-to-b from-[#181818] to-[#0a0a0a] text-page-bg font-body-md text-body-md w-full pt-12 pb-xl px-margin flex flex-col items-center rounded-t-[40px] mt-section relative overflow-hidden">
+<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-profit/40 to-transparent"></div>
+<div class="max-w-[1728px] mx-auto w-full relative z-10">
+<!-- Brand mark -->
+<div class="reveal flex items-center justify-center gap-3 mb-[90px]">
+<div class="w-[44px] h-[44px] rounded-full bg-gradient-to-br from-profit to-profit-2 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(18,185,129,0.4)]"><span class="text-black font-bold text-lg leading-none">E</span></div>
+<span class="text-white font-bold tracking-tight text-xl">ETW Journal</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-lg w-full mb-xl text-left border-t border-white/10 pt-16 text-white">
+<!-- Footer Links Columns -->
+<div class="reveal flex flex-col gap-4">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Product</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#features">Features</a>
+<a class="hover:text-white transition-colors text-white/80" href="#analytics">Analytics</a>
+<a class="hover:text-white transition-colors text-white/80" href="#pricing">Pricing</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Changelog</a>
+</div>
+<div class="reveal flex flex-col gap-4" style="transition-delay: 0.1s;">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Markets</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#">Forex</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Crypto</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Indices</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Commodities</a>
+</div>
+<div class="reveal flex flex-col gap-4" style="transition-delay: 0.2s;">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Company</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#">About Us</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Careers</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Blog</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Contact</a>
+</div>
+<div class="reveal flex flex-col gap-4" style="transition-delay: 0.3s;">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Legal</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#">Privacy Policy</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Terms of Service</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Risk Disclosure</a>
+</div>
+<div class="reveal flex flex-col gap-4" style="transition-delay: 0.4s;">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Social</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#">Twitter / X</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Discord</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">YouTube</a>
+</div>
+<div class="reveal flex flex-col gap-4" style="transition-delay: 0.5s;">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Support</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#">Help Center</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Community</a>
+<a class="hover:text-white transition-colors text-white/80" href="#">Install Guide</a>
+</div>
+<div class="reveal flex flex-col gap-4" style="transition-delay: 0.6s;">
+<h4 class="font-label text-label text-white/50 uppercase mb-2">Status</h4>
+<a class="hover:text-white transition-colors text-white/80" href="#">Trust Center</a>
+<div class="flex items-center gap-2 text-white/80 hover:text-white transition-colors cursor-pointer">
+<div class="w-2 h-2 rounded-full bg-profit shadow-[0_0_10px_rgba(18,185,129,0.6)]"></div>
+<span class="">All systems operational</span>
+</div>
+</div>
+</div>
+<div class="reveal flex flex-col md:flex-row items-center justify-between w-full pt-8 text-white/50 text-sm border-t border-white/10">
+<p class="">© 2026 ETW Journal. All rights reserved.</p>
+<p class="">Ethereum Wizard Trades · Trade responsibly.</p>
+</div>
+</div>
+</footer>
+<script>
+  // Intersection Observer for scroll reveal animations
+  const observerOptions = {
+    root: null,
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal').forEach(el => {
+ observer.observe(el);
+  });
+
+  // Cinematic testimonial carousel
+  (function () {
+    const slides = Array.from(document.querySelectorAll('.testi-slide'));
+    const dots = Array.from(document.querySelectorAll('.testi-dot'));
+    if (!slides.length) return;
+    let current = 0;
+    let timer = null;
+    const INTERVAL = 5500;
+
+    function show(i) {
+      current = (i + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+    }
+    function next() { show(current + 1); }
+    function start() { stop(); timer = setInterval(next, INTERVAL); }
+    function stop() { if (timer) clearInterval(timer); }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => { show(idx); start(); });
+    });
+
+    const wrap = document.getElementById('testi-wrap');
+    if (wrap) {
+      wrap.addEventListener('mouseenter', stop);
+      wrap.addEventListener('mouseleave', start);
+    }
+    start();
+  })();
+
+  // Magnetic buttons — cinematic cursor-follow on hover
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    document.querySelectorAll('.cta-magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        btn.style.transform = `translate(${x * 0.18}px, ${y * 0.28}px) scale(1.05)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+  }
+</script>
+</body></html>
